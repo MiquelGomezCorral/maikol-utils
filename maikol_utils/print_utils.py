@@ -4,14 +4,14 @@ from typing import Literal
 #                                       GENERAL
 # ==========================================================================================
 
-separators = {
+_separators = {
     "separator_short" : "_"*32,
     "separator_normal": "_"*64,
     "separator_long"  : "_"*128,
     "separator_super" : "="*128,
 }
 
-colors = {
+_colors = {
     "red":    "\033[31m",
     "green":  "\033[32m",
     "yellow": "\033[33m",
@@ -29,13 +29,13 @@ def print_separator(text: str, sep_type: Literal["SHORT", "NORMAL", "LONG", "SUP
         sep_type (Literal['SHORT', 'NORMAL', 'LONG', 'SUPER'], optional): Type of the separation line. Defaults to "NORMAL".
     """
     if sep_type == "SHORT":
-        sep = separators["separator_short"]
+        sep = _separators['separator_short']
     elif sep_type == "NORMAL":
-        sep = separators["separator_normal"]
+        sep = _separators['separator_normal']
     elif sep_type == "LONG":
-        sep = separators["separator_long"]
+        sep = _separators['separator_long']
     elif sep_type == "SUPER" or sep_type == "START":
-        sep = separators["separator_super"]
+        sep = _separators['separator_super']
     else:
         sep = separator_normal
         print_warn("WARNING: No separator with that label")
@@ -65,17 +65,17 @@ def print_color(text: str, color: Colors = "white", print_text: bool = True) -> 
         str: Text with colors
     """
     if color == "red":
-        color = colors["color_red"]
+        color = _colors['red']
     elif color == "green":
-        color = colors["color_green"]
+        color = _colors['green']
     elif color == "blue":
-        color = colors["color_blue"]
+        color = _colors['blue']
     elif color == "yellow":
-        color = colors["color_yellow"]
+        color = _colors['yellow']
     else:
-        color = colors["color_reset"]
+        color = _colors['white']
 
-    text: str = f"{color}{text}{colors["color_reset"]}"
+    text: str = f"{color}{text}{_colors['white']}"
 
     if print_text:
         print(f"{text}")
