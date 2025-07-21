@@ -154,3 +154,20 @@ def list_dir_files(path: str, max_files: int = None, nat_sorting: bool = True) -
     n_files = len(dir_list)
 
     return dir_list, n_files
+
+
+def change_file_ext(path: str, new_extension: str) -> str:
+    """
+    Changes the extension of a given file path.
+
+    Args:
+        path (str): The original file path.
+        new_extension (str): The new file extension (with or without a leading dot: '.txt' or 'txt').
+
+    Returns:
+        str: The file path with the new extension.
+    """
+    if not new_extension.startswith("."):
+        new_extension = "." + new_extension
+        
+    return str(Path(path).with_suffix(new_extension))

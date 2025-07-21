@@ -22,12 +22,13 @@ def print_log(
 # ==========================================================================================
 #                                       GENERAL
 # ==========================================================================================
+_separators_max_length = 128
 _separators = {
-    "short" : "_"*32,
-    "normal": "_"*64,
-    "long"  : "_"*128,
-    "super" : "="*128,
-    "start" : "="*128,
+    "short" : "_"*int(_separators_max_length/4),
+    "normal": "_"*int(_separators_max_length/2),
+    "long"  : "_"*int(_separators_max_length),
+    "super" : "="*int(_separators_max_length),
+    "start" : "="*int(_separators_max_length),
 }
 SepType = Literal["SHORT", "NORMAL", "LONG", "SUPER", "START"]
 
@@ -125,7 +126,7 @@ def print_status(msg: str, log_level: LogLevel = _base_log_level):
     Args:
         msg (str): Message to display.
     """
-    clear_line = " " * 120  # assume max 120 chars per line
+    clear_line = " " * _separators_max_length  # assume max 120 chars per line
     print_log(f"{clear_line}\r{msg}\r", end="\r", log_level=log_level)
 
 def clear_status(log_level: LogLevel = _base_log_level):
