@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "natsort>=8.4.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "maikol-utils"
-version = "0.2.0"
+version = "0.3.0"
 description = "Python module with some utils for every day code that I've seen usefull lately while working. Print, print colors, print warnings, print errors, save files, load files, clear bash"
 authors = [{name = "Miquel Gómez"}]
 readme = "README.md"

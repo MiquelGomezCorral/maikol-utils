@@ -1,32 +1,27 @@
 from typing import Literal
-import logging
+
+from .config import _logger, _base_log_level, LogLevel
 
 # ==========================================================================================
 #                                       LOGGER
 # ==========================================================================================
-_logger: logging.Logger | None = None
 
-def set_logger(logger: logging.Logger) -> None:
-    global _logger
-    _logger = logger
-
-def print_log(text: str, end: str = "\n", log_type: Literal["error", "warning", "info"] = "info") -> None:
+def print_log(
+    text: str, 
+    end: str = "\n", 
+    log_level: LogLevel = _base_log_level
+) -> None:
     if _logger:
-        if log_type == "error":
-            _logger.error(text)
-        elif log_type == "warning":
-            _logger.warning(text)
-        else: # log_type == "info":
-            _logger.info(text)
+        # get he correct level and if not listed use info
+        log_func = getattr(_logger, log_level, _logger.info)
+        log_func(text)
     else:
         print(text, end=end)
+
+
 # ==========================================================================================
 #                                       GENERAL
 # ==========================================================================================
-
-
-
-
 _separators = {
     "short" : "_"*32,
     "normal": "_"*64,
@@ -45,7 +40,7 @@ _colors = {
 }
 Colors = Literal["red", "green", "blue", "yellow", "white"]
 
-def print_separator(text: str, sep_type: SepType = "NORMAL") -> None:
+def print_separator(text: str = None, sep_type: SepType = "NORMAL") -> None:
     """Prints a text with a line that separes the bash outputs. The size of this line is controled by sep_type
 
     Args:
@@ -59,18 +54,21 @@ def print_separator(text: str, sep_type: SepType = "NORMAL") -> None:
 
     if sep_type == "SUPER":
         print_log(sep)
-        print_log(f"{text:^{len(sep)}}")
+        if text:
+            print_log(f"{text:^{len(sep)}}")
         print_log(sep + "\n")
     elif sep_type == "START":
         print_color(sep + "\n", color="blue")
-        print_color(f"{text:^{len(sep)}}\n", color="blue")
+        if text:
+            print_color(f"{text:^{len(sep)}}\n", color="blue")
         print_color(sep + "\n", color="blue")
     else:
         print_log(sep)
-        print_log(f"{text:^{len(sep)}}\n")
+        if text:
+            print_log(f"{text:^{len(sep)}}\n")
 
 
-def print_color(text: str, color: Colors = "white", print_text: bool = True) -> str:
+def print_color(text: str, color: Colors = "white", log_level: LogLevel = 'info', print_text: bool = True) -> str:
     """Prints the text with a certain color
 
     Args:
@@ -85,7 +83,7 @@ def print_color(text: str, color: Colors = "white", print_text: bool = True) -> 
     text: str = f"{color}{text}{_colors['white']}"
 
     if print_text:
-        print_log(f"{text}")
+        print_log(f"{text}", log_level=log_level)
 
     return text
 
@@ -100,7 +98,7 @@ def print_warn(text: str, color: Colors = "yellow") -> str:
     Returns:
         str: Text with color and emojis
     """
-    return print_color(f"⚠️{text}⚠️", color=color)
+    return print_color(f"⚠️{text}⚠️", color=color, log_level="warning")
 
 def print_error(text: str, color: Colors = "red") -> str:
     """Adds the text between teh following emoji ❌...❌
@@ -112,13 +110,13 @@ def print_error(text: str, color: Colors = "red") -> str:
     Returns:
         str: Text with color and emojis
     """
-    return print_color(f"❌{text}❌", color=color)
+    return print_color(f"❌{text}❌", color=color, log_level="warning")
 
 
 # ==========================================================================================
 #                                    CLEAR LINES
 # ==========================================================================================
-def print_status(msg: str):
+def print_status(msg: str, log_level: LogLevel = _base_log_level):
     """Prints a dynamic status message on the same terminal line.
 
     Useful for updating progress or status in-place (e.g. during loops),
@@ -128,12 +126,12 @@ def print_status(msg: str):
         msg (str): Message to display.
     """
     clear_line = " " * 120  # assume max 120 chars per line
-    print_log(f"{clear_line}\r{msg}\r", end="\r")
+    print_log(f"{clear_line}\r{msg}\r", end="\r", log_level=log_level)
 
-def clear_status():
+def clear_status(log_level: LogLevel = _base_log_level):
     """Clears the previous status line
     """
-    print_status("")
+    print_status("", log_level=log_level)
 
 def clear_bash(n_lines: int = 1) -> None:
     """Cleans the bash output by removing the last n lines.
@@ -143,11 +141,11 @@ def clear_bash(n_lines: int = 1) -> None:
     """
     print_log("\033[F\033[K"*n_lines, end="")  # Move cursor up one line and clear that line
 
-def print_clear_bash(text: str, n_lines: int = 1) -> None:
+def print_clear_bash(text: str, n_lines: int = 1, log_level: LogLevel = _base_log_level) -> None:
     """Cleans the bash output by removing the last n lines.
 
     Args:
         n_lines (int, optional): Number of lines to remove. Defaults to 1.
     """
     clear_bash(n_lines)
-    print_log(text)
+    print_log(text, log_level=log_level)

@@ -1,4 +1,4 @@
-# Welcoome to maikol-utils 🧰 V 0.2.0
+# Welcoome to maikol-utils 🧰 V 0.3.0
 maikol-utils is a lightweight and reusable Python utility package designed to speed up and clean up your everyday scripting and automation workflows.
 
 Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators — this module brings a collection of practical tools ready to use.
@@ -93,3 +93,13 @@ print_clear_bash(text, n) — Clear then print a new message.
 - CLI preview tool for bash formatting.
 
 
+### Upload
+- If first time
+```bash
+pip install twine wheel
+```
+- Upload
+```bash
+python -m build
+twine upload dist/*
+```
