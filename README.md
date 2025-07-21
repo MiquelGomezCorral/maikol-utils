@@ -39,7 +39,8 @@ Hand-picked utilities from real-world scripting and automation tasks.
 # 📘 Usage
 
 ```python
-from maikol_utils import save_json, load_json, print_separator, print_warn, clear_bash
+from maikol_utils.print_utils import print_separator, print_warn, clear_bash
+from maikol_utils.file_utils import save_json, load_json
 
 # Save data to JSON
 save_json("outputs/data.json", {"name": "maikol"})
