@@ -13,7 +13,7 @@ license = {text = "MIT"}
 
 [project.urls]
 Homepage = "https://github.com/MiquelGomezCorral/maikol-utils/"
-Miquel_Gómez = "https://miquelgc.net"
+Miquel = "https://miquelgc.net"
 
 [tool.setuptools]
 packages = ["maikol_utils"]
