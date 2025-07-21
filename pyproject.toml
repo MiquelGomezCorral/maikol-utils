@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maikol-utils"
-version = "0.1.0"
-description = "Python module with some utils for every day code that I've usefull lately while working. Print, print colors, print warnings, print errors, save files, load files, clear bash"
+version = "0.2.0"
+description = "Python module with some utils for every day code that I've seen usefull lately while working. Print, print colors, print warnings, print errors, save files, load files, clear bash"
 authors = [{name = "Miquel Gómez"}]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -13,7 +13,7 @@ license = {text = "MIT"}
 
 [project.urls]
 Homepage = "https://github.com/MiquelGomezCorral/maikol-utils/"
-Miquel = "https://miquelgc.net"
+Miquel_Gómez = "https://miquelgc.net"
 
 [tool.setuptools]
 packages = ["maikol_utils"]

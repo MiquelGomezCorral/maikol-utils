@@ -1,15 +1,40 @@
 from typing import Literal
+import logging
 
+# ==========================================================================================
+#                                       LOGGER
+# ==========================================================================================
+_logger: logging.Logger | None = None
+
+def set_logger(logger: logging.Logger) -> None:
+    global _logger
+    _logger = logger
+
+def print_log(text: str, end: str = "\n", log_type: Literal["error", "warning", "info"] = "info") -> None:
+    if _logger:
+        if log_type == "error":
+            _logger.error(text)
+        elif log_type == "warning":
+            _logger.warning(text)
+        else: # log_type == "info":
+            _logger.info(text)
+    else:
+        print(text, end=end)
 # ==========================================================================================
 #                                       GENERAL
 # ==========================================================================================
 
+
+
+
 _separators = {
-    "separator_short" : "_"*32,
-    "separator_normal": "_"*64,
-    "separator_long"  : "_"*128,
-    "separator_super" : "="*128,
+    "short" : "_"*32,
+    "normal": "_"*64,
+    "long"  : "_"*128,
+    "super" : "="*128,
+    "start" : "="*128,
 }
+SepType = Literal["SHORT", "NORMAL", "LONG", "SUPER", "START"]
 
 _colors = {
     "red":    "\033[31m",
@@ -18,39 +43,31 @@ _colors = {
     "blue":   "\033[34m",
     "white":  "\033[0m",
 }
-
 Colors = Literal["red", "green", "blue", "yellow", "white"]
 
-def print_separator(text: str, sep_type: Literal["SHORT", "NORMAL", "LONG", "SUPER", "START"] = "NORMAL") -> None:
+def print_separator(text: str, sep_type: SepType = "NORMAL") -> None:
     """Prints a text with a line that separes the bash outputs. The size of this line is controled by sep_type
 
     Args:
         text (str): Text to print.
-        sep_type (Literal['SHORT', 'NORMAL', 'LONG', 'SUPER'], optional): Type of the separation line. Defaults to "NORMAL".
+        sep_type (Literal['SHORT', 'NORMAL', 'LONG', 'SUPER', 'START'], optional): Type of the separation line. Defaults to "NORMAL".
     """
-    if sep_type == "SHORT":
-        sep = _separators['separator_short']
-    elif sep_type == "NORMAL":
-        sep = _separators['separator_normal']
-    elif sep_type == "LONG":
-        sep = _separators['separator_long']
-    elif sep_type == "SUPER" or sep_type == "START":
-        sep = _separators['separator_super']
-    else:
-        sep = separator_normal
+
+    sep = _separators.get(sep_type.lower(), "") # If the separator is not there do it with ''
+    if not sep:
         print_warn("WARNING: No separator with that label")
-    
+
     if sep_type == "SUPER":
-        print(sep)
-        print(f"{text:^{len(sep)}}")
-        print(sep + "\n")
+        print_log(sep)
+        print_log(f"{text:^{len(sep)}}")
+        print_log(sep + "\n")
     elif sep_type == "START":
         print_color(sep + "\n", color="blue")
         print_color(f"{text:^{len(sep)}}\n", color="blue")
         print_color(sep + "\n", color="blue")
     else:
-        print(sep)
-        print(f"{text:^{len(sep)}}\n")
+        print_log(sep)
+        print_log(f"{text:^{len(sep)}}\n")
 
 
 def print_color(text: str, color: Colors = "white", print_text: bool = True) -> str:
@@ -64,21 +81,11 @@ def print_color(text: str, color: Colors = "white", print_text: bool = True) -> 
     Return: 
         str: Text with colors
     """
-    if color == "red":
-        color = _colors['red']
-    elif color == "green":
-        color = _colors['green']
-    elif color == "blue":
-        color = _colors['blue']
-    elif color == "yellow":
-        color = _colors['yellow']
-    else:
-        color = _colors['white']
-
+    color =  _colors.get(color, _colors['white'])
     text: str = f"{color}{text}{_colors['white']}"
 
     if print_text:
-        print(f"{text}")
+        print_log(f"{text}")
 
     return text
 
@@ -120,9 +127,13 @@ def print_status(msg: str):
     Args:
         msg (str): Message to display.
     """
-    clear_line = " " * 200  # assume max 200 chars per line
-    print(f"\r{clear_line}\r{msg}", end="", flush=True)
+    clear_line = " " * 120  # assume max 120 chars per line
+    print_log(f"{clear_line}\r{msg}\r", end="\r")
 
+def clear_status():
+    """Clears the previous status line
+    """
+    print_status("")
 
 def clear_bash(n_lines: int = 1) -> None:
     """Cleans the bash output by removing the last n lines.
@@ -130,7 +141,7 @@ def clear_bash(n_lines: int = 1) -> None:
     Args:
         n_lines (int, optional): Number of lines to remove. Defaults to 1.
     """
-    print("\033[F\033[K"*n_lines, end="")  # Move cursor up one line and clear that line
+    print_log("\033[F\033[K"*n_lines, end="")  # Move cursor up one line and clear that line
 
 def print_clear_bash(text: str, n_lines: int = 1) -> None:
     """Cleans the bash output by removing the last n lines.
@@ -139,4 +150,4 @@ def print_clear_bash(text: str, n_lines: int = 1) -> None:
         n_lines (int, optional): Number of lines to remove. Defaults to 1.
     """
     clear_bash(n_lines)
-    print(text)
+    print_log(text)
