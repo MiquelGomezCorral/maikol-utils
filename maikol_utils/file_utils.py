@@ -123,7 +123,7 @@ def clear_directories(directories: list[str], remove_folder: bool = False, verbo
 # ==========================================================================================
 #                                       LIST DIR
 # ==========================================================================================
-def list_dir_files(path: str, max_files: int = None, nat_sorting: bool = True) -> tuple[list[str], int]:
+def list_dir_files(path: str, max_files: int = None, recursive: bool = False, nat_sorting: bool = True, absolute_path: bool = True) -> tuple[list[str], int]:
     """Given a path and (optionally) the number of max files, loads a sorted list of
     all the files that are found in that folder (with at most max_files if passed).
     Then returns tha list of files and the number of those that have been loaded.
@@ -134,22 +134,50 @@ def list_dir_files(path: str, max_files: int = None, nat_sorting: bool = True) -
     Args:
         path (str): Path to the folder
         max_files (int, optional): Max number of files to load. Defaults to None.
+        recursive (bool, optional): If false just return the root level files in the path. If true list ALL files in any sub folder. Default to False.
         nat_sorting (bool, optional): Whether or not to sort the files as the os (naturally humans) do. Defualt to True.
+        absolute_path (bool, optional): Whether or not return the absolute path (path + file names) or just the file names from path (files names). Defualt to True.
+            absolute_path = True: 
+                >>> path = "./test" -> ["./test/file1","./test/file2","./test/folder/file3"]
+            absolute_path = False: 
+                >>> path = "./test" -> ["/file1","/file2","/folder/file3"]
+
 
     Returns:
         tuple[list[str], int]: The list of file names and the number of those that have been listed
     """
-    if not os.path.exists(path) and not os.path.isdir(path):
+    if not os.path.isdir(path):
         print_error(f"NO SUCH DIRECTORY: {path!r}")
         return [], 0
     
-    dir_list = os.listdir(path)
+    # ========= GET ALL THE FILES =========
+    if not recursive:
+        aux = os.listdir(path)
+        dir_list = [
+            os.path.join(path, entry)
+            for entry in aux
+            if os.path.isfile(os.path.join(path, entry))
+        ]
+            
+    else: # Loop over each subfile and add the whole path
+        dir_list = []
+        for dirpath, _, filenames in os.walk(path):
+            for f in filenames:
+                full_path = os.path.join(dirpath, f)
+                dir_list.append(full_path)
 
+    # ========= SORTHING =========
     if nat_sorting:
         dir_list = natsorted(dir_list)
     else:
         dir_list = list(sorted(dir_list))
 
+    # ========= REMOVE ABS PATH =========
+    if not absolute_path:
+        dir_list = [os.path.relpath(f, path) for f in dir_list]
+
+
+    # ========= CUT THE LIST =========
     dir_list = dir_list[:max_files]
     n_files = len(dir_list)
 
