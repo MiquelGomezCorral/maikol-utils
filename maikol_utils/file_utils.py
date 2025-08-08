@@ -1,27 +1,28 @@
 import os
 import json
 import shutil
-from typing import Any
+from typing import Any, Callable
 from pathlib import Path
 from natsort import natsorted
 
-from .print_utils import print_warn, print_error, print_log
-from .config import _verbose
+from .print_utils import print_status, print_warn, print_error, print_log
+from .config import get_verbose
 # ==========================================================================================
 #                                       JSON 
 # ==========================================================================================
-def save_json(save_path: str, content: Any, verbose: bool = False):
+def save_json(save_path: str, content: Any, verbose: bool = None):
     """
     Saves a Python object as a JSON file.
 
     Args:
         save_path (str): Full path including file name to save the JSON.
         content (Any): The content to save (must be JSON-serializable).
+        verbose (bool): Wether to print or not. If not set, will follow general config.
 
     Returns:
         Any: The original content.
     """
-    if _verbose or verbose:
+    if get_verbose(verbose):
         print_log(f"Saving output at {save_path}...")
     
     # Extra safety for empty paths
@@ -35,22 +36,23 @@ def save_json(save_path: str, content: Any, verbose: bool = False):
     return content
 
 
-def load_json(save_path: str, verbose: bool = False) -> Any:
+def load_json(save_path: str, verbose: bool = None) -> Any:
     """
     Loads JSON content from a file. Returns an empty dict if the file does not exist.
 
     Args:
         save_path (str): Full path including file name to read the JSON from.
+        verbose (bool): Wether to print or not. If not set, will follow general config.
 
     Returns:
         Any: The loaded content, or an empty dict if the file does not exist.
     """
     if not os.path.exists(save_path):
-        if _verbose or verbose:
+        if get_verbose(verbose):
             print_warn(f"NO FILE AT {save_path}. Returning empty dict...")
         return dict()
 
-    if _verbose or verbose:
+    if get_verbose(verbose):
         print_log(f"Loading output from {save_path}...")
 
     with open(save_path, "r", encoding="utf-8") as out_json:
@@ -88,7 +90,7 @@ def make_dirs(directories: list[str]) -> None:
         os.makedirs(directory, exist_ok=True)
 
 
-def clear_directories(directories: list[str], remove_folder: bool = False, verbose: bool = False):
+def clear_directories(directories: list[str], remove_folder: bool = False, verbose: bool = None):
     """
     Clears out each directory in `directories`. If `remove_folder` is True,
     the entire folder is removed; otherwise only its contents are deleted.
@@ -96,7 +98,7 @@ def clear_directories(directories: list[str], remove_folder: bool = False, verbo
     Args:
         directories (list[str]): Paths to directories.
         remove_folder (bool): If True, delete the folder itself.
-        verbose (bool): If True, emit warnings for missing paths.
+        verbose (bool): Wether to print or not. If not set, will follow general config.
 
     Notes:
         - If the folder does not exist or is not a directory, a message is printed.
@@ -105,7 +107,7 @@ def clear_directories(directories: list[str], remove_folder: bool = False, verbo
     for d in directories:
         p = Path(d)
         if not p.exists() or not p.is_dir():
-            if _verbose or verbose:
+            if get_verbose(verbose):
                 print_warn(f"{d!r} not found or not a dir")
             continue
 
@@ -115,7 +117,7 @@ def clear_directories(directories: list[str], remove_folder: bool = False, verbo
             for child in p.iterdir():
                 (shutil.rmtree(child) if child.is_dir() else child.unlink())
 
-        if _verbose or verbose:
+        if get_verbose(verbose):
             print_log(f"{'Removed' if remove_folder else 'Cleared'} {d}")
 
 
@@ -199,3 +201,47 @@ def change_file_ext(path: str, new_extension: str) -> str:
         new_extension = "." + new_extension
         
     return str(Path(path).with_suffix(new_extension))
+
+
+def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable, verbose: bool = None, *args, **kwargs) -> Any:
+    """Manages temporal files for saving certain function outputs.
+
+    When called for the first time, it will execute the function and save the file
+    into a temporal folder. If by any reason (crash) this is called again with the
+    same key, instead of executing process again, it will load the previous saved output
+
+    Args:
+        call_key (str): Unique as possible key for the call
+        temp_folder_path (str): path to the temporal files folder
+        to_execute (Callable): Function / process to be executed. Will pass all extra parameters
+        *args: Positional arguments to pass to the function
+        **kwargs: Keyword arguments to pass to the function
+
+    Returns:
+        Any: Whatever the process returns
+
+    Examples:
+    >>> for i in range(10):
+    >>>     magange_temp_files(
+    >>>         i,                     # call_key
+    >>>         "./temp",              # temp_folder_path
+    >>>         document_to_llm,       # function
+    >>>         llm_client,            # *args -> function arg 1
+    >>>         pages[i],              # *args -> function arg 2
+    >>>         verbose=False          # **kwargs -> function keyword arg
+    >>>     )
+    """
+    temp_path = os.path.join(temp_folder_path, f"{call_key}.json")
+
+    if os.path.exists(temp_path):
+        if get_verbose(verbose):
+            print_log(f" - Skiping {call_key}: Temp file found at {temp_path}")
+        return load_json(temp_path, verbose=False)
+
+    if get_verbose(verbose):
+        print_status(f" - Executing callable {function.__name__}...")
+    content = function(*args, **kwargs)
+
+    save_json(temp_path, content)
+    return content
+

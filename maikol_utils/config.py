@@ -48,3 +48,15 @@ def set_verbose(verbose: bool) -> None:
     """
     global _verbose
     _verbose = verbose
+
+def get_verbose(verbose: bool = None) -> bool:
+    """Returns general verbose if one is not passed. Else 
+    follows function passed verbose. 
+
+    Args:
+        verbose (bool, optional): _description_. Defaults to None.
+
+    Returns:
+        bool: _description_
+    """
+    return verbose if verbose is not None else _verbose
