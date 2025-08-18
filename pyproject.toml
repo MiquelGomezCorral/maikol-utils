@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maikol-utils"
-version = "0.5.2"
+version = "0.5.3"
 description = "Python module with some utils for every day code that I've seen usefull lately while working. Print, print colors, print warnings, print errors, save files, load files, clear bash"
 authors = [{name = "Miquel Gómez"}]
 readme = "README.md"

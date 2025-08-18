@@ -242,6 +242,6 @@ def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable,
         print_status(f" - Executing '{function.__name__}' for '{call_key}'...")
     result = function(*args, **kwargs)
 
-    save_json(temp_path, result)
+    save_json(temp_path, result, verbose=False)
     return result
 
