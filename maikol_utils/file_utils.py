@@ -203,7 +203,7 @@ def change_file_ext(path: str, new_extension: str) -> str:
     return str(Path(path).with_suffix(new_extension))
 
 
-def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable, verbose: bool = None, *args, **kwargs) -> Any:
+def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable, _verbose: bool = None, *args, **kwargs) -> Any:
     """Manages temporal files for saving certain function outputs.
 
     When called for the first time, it will execute the function and save the file
@@ -234,14 +234,14 @@ def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable,
     temp_path = os.path.join(temp_folder_path, f"{call_key}.json")
 
     if os.path.exists(temp_path):
-        if get_verbose(verbose):
-            print_log(f" - Skiping {call_key}: Temp file found at {temp_path}")
+        if get_verbose(_verbose):
+            print_log(f" - Skiping '{call_key}': Temp file found at '{temp_path}'")
         return load_json(temp_path, verbose=False)
 
-    if get_verbose(verbose):
-        print_status(f" - Executing callable {function.__name__}...")
-    content = function(*args, **kwargs)
+    if get_verbose(_verbose):
+        print_status(f" - Executing '{function.__name__}'...")
+    result = function(*args, **kwargs)
 
-    save_json(temp_path, content)
-    return content
+    save_json(temp_path, result)
+    return result
 
