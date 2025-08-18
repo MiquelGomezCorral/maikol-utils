@@ -90,13 +90,14 @@ def make_dirs(directories: list[str]) -> None:
         os.makedirs(directory, exist_ok=True)
 
 
-def clear_directories(directories: list[str], remove_folder: bool = False, verbose: bool = None):
-    """
-    Clears out each directory in `directories`. If `remove_folder` is True,
-    the entire folder is removed; otherwise only its contents are deleted.
+def clear_directories(dir_or_dirs: str | list[str], remove_folder: bool = False, verbose: bool = None):
+    """Clears out each directory in `dir_or_dirs`. 
+    If dir_or_dirs is just a directory (string) just clear that one. Else
+    loop over all the directories and clean them all.
+    If `remove_folder` is True, the entire folder is removed; otherwise only its contents are deleted.
 
     Args:
-        directories (list[str]): Paths to directories.
+        dir_or_dirs (str | list[str]): Path/s to directories.
         remove_folder (bool): If True, delete the folder itself.
         verbose (bool): Wether to print or not. If not set, will follow general config.
 
@@ -104,7 +105,10 @@ def clear_directories(directories: list[str], remove_folder: bool = False, verbo
         - If the folder does not exist or is not a directory, a message is printed.
         - This function is intended for temporary folders or cleanup tasks.
     """
-    for d in directories:
+    if isinstance(dir_or_dirs, str): 
+        dir_or_dirs = [dir_or_dirs]
+
+    for d in dir_or_dirs:
         p = Path(d)
         if not p.exists() or not p.is_dir():
             if get_verbose(verbose):
