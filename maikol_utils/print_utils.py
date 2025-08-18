@@ -150,3 +150,22 @@ def print_clear_bash(text: str, n_lines: int = 1, log_level: LogLevel = _base_lo
     """
     clear_bash(n_lines)
     print_log(text, log_level=log_level)
+
+
+def print_utf_8(text: str, print_text: bool = True) -> str:
+    """Decode escaped Unicode sequences in a string and optionally print it.
+
+    Encodes the input string to UTF-8, decodes escape sequences (e.g. "\\u00e9"),
+    replaces "\\n" with newlines, and returns the processed text.
+
+    Args:
+        text (str): Input text containing escaped Unicode characters.
+        print_text (bool, optional): If True, print the processed text. Defaults to True.
+
+    Returns:
+        str: The decoded and formatted text.
+    """
+    text = text.encode("utf-8").decode("unicode_escape").replace("\\n", "\n")
+    if print_text:
+        print(text)
+    return text
