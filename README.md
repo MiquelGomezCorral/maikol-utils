@@ -1,4 +1,4 @@
-# Welcoome to maikol-utils 🧰 V 0.5.0
+# Welcoome to maikol-utils 🧰 V 0.5.1
 maikol-utils is a lightweight and reusable Python utility package designed to speed up and clean up your everyday scripting and automation workflows.
 
 Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators — this module brings a collection of practical tools ready to use.
@@ -29,8 +29,11 @@ Hand-picked utilities from real-world scripting and automation tasks.
 
 # 📦 Installation
 
-- `pip install maikol-utils`
-- Clone it from [github](https://github.com/MiquelGomezCorral/maikol-utils).
+Option 1: _With pip_
+1. With pip: `pip install maikol-utils`
+
+Option 2: _Clonning the repo_
+1. Clone it from [github](https://github.com/MiquelGomezCorral/maikol-utils): `git clone https://github.com/MiquelGomezCorral/maikol-utils`
 
 ### Examples of each function at the repo notebook
 - This [notebook](https://github.com/MiquelGomezCorral/maikol-utils/blob/main/usage_examples.ipynb)
