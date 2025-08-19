@@ -19,6 +19,14 @@ def set_logger(logger: logging.Logger) -> None:
     global _logger
     _logger = logger
 
+def get_logger() -> logging.Logger | None:
+    """Get the logger instance used in the module
+
+    Returns:
+        logging.Logger | None: Logger
+    """
+    return _logger
+
 
 def set_base_log_level(base_log_level: LogLevel):
     """Sets the base log level for 'print_log' without spcifying the log level
@@ -33,6 +41,14 @@ def set_base_log_level(base_log_level: LogLevel):
     if base_log_level not in _LOG_LEVELS:
         raise ValueError(f"The log level '{base_log_level}' is not in those listed: {_LOG_LEVELS}")
     _base_log_level = base_log_level
+
+def get_base_log_level() -> LogLevel:
+    """Get the Module base log levelv
+
+    Returns:
+        LogLevel: Module base log levelv
+    """
+    return _base_log_level
 
 # ==========================================================================================
 #                                       Verbose

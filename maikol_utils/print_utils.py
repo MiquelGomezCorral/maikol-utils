@@ -1,6 +1,7 @@
+import logging
 from typing import Literal
 
-from .config import _logger, _base_log_level, LogLevel
+from .config import get_logger, get_base_log_level, LogLevel
 
 # ==========================================================================================
 #                                       LOGGER
@@ -9,11 +10,17 @@ from .config import _logger, _base_log_level, LogLevel
 def print_log(
     text: str, 
     end: str = "\n", 
-    log_level: LogLevel = _base_log_level
+    logger: logging.Logger = None,
+    log_level: LogLevel = None
 ) -> None:
-    if _logger:
+    if logger is None:
+        logger = get_logger()
+    if log_level is None:
+        log_level = get_base_log_level()
+
+    if logger: # Make sense bc get_logger may return None
         # get he correct level and if not listed use info
-        log_func = getattr(_logger, log_level, _logger.info)
+        log_func = getattr(logger, log_level, logger.info)
         log_func(text)
     else:
         print(text, end=end)
