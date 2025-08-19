@@ -124,7 +124,7 @@ def print_error(text: str, color: Colors = "red") -> str:
 # ==========================================================================================
 #                                    CLEAR LINES
 # ==========================================================================================
-def print_status(msg: str, log_level: LogLevel = _base_log_level):
+def print_status(msg: str, log_level: LogLevel = None):
     """Prints a dynamic status message on the same terminal line.
 
     Useful for updating progress or status in-place (e.g. during loops),
@@ -133,12 +133,16 @@ def print_status(msg: str, log_level: LogLevel = _base_log_level):
     Args:
         msg (str): Message to display.
     """
+    if log_level is None:
+        log_level = get_base_log_level()
     clear_line = " " * _separators_max_length  # assume max 120 chars per line
     print_log(f"{clear_line}\r{msg}\r", end="\r", log_level=log_level)
 
-def clear_status(log_level: LogLevel = _base_log_level):
+def clear_status(log_level: LogLevel = None):
     """Clears the previous status line
     """
+    if log_level is None:
+        log_level = get_base_log_level()
     print_status("", log_level=log_level)
 
 def clear_bash(n_lines: int = 1) -> None:
@@ -149,12 +153,14 @@ def clear_bash(n_lines: int = 1) -> None:
     """
     print_log("\033[F\033[K"*n_lines, end="")  # Move cursor up one line and clear that line
 
-def print_clear_bash(text: str, n_lines: int = 1, log_level: LogLevel = _base_log_level) -> None:
+def print_clear_bash(text: str, n_lines: int = 1, log_level: LogLevel = None) -> None:
     """Cleans the bash output by removing the last n lines.
 
     Args:
         n_lines (int, optional): Number of lines to remove. Defaults to 1.
     """
+    if log_level is None:
+        log_level = get_base_log_level()
     clear_bash(n_lines)
     print_log(text, log_level=log_level)
 
