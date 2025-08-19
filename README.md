@@ -1,4 +1,4 @@
-# Welcoome to maikol-utils 🧰 V 0.6.1
+# Welcoome to maikol-utils 🧰 V 0.6.2
 maikol-utils is a lightweight and reusable Python utility package designed to speed up and clean up your everyday scripting and automation workflows.
 
 Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators — this module brings a collection of practical tools ready to use.
