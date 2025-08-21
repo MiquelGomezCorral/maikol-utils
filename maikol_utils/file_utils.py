@@ -64,29 +64,35 @@ def load_json(save_path: str, verbose: bool = None) -> Any:
 # ==========================================================================================
 #                                       DIRECTORIES
 # ==========================================================================================
-def check_dirs_existance(directories: list[str]) -> None:
+def check_dirs_existance(dir_or_dirs: str | list[str]) -> None:
     """
-    Checks if all specified directories exist.
+    Checks if all specified dir_or_dirs exist.
 
     Args:
-        directories (list[str]): List of directory paths to check.
+        dir_or_dirs (str | list[str]): Directory or list of directory paths to check.
 
     Raises:
-        KeyError: If any of the directories do not exist.
+        KeyError: If any of the dir_or_dirs do not exist.
     """
-    missing = [d for d in directories if not os.path.exists(d)]
+    if isinstance(dir_or_dirs, str):
+        dir_or_dirs = [dir_or_dirs]
+
+    missing = [d for d in dir_or_dirs if not os.path.exists(d)]
     if missing:
         raise KeyError(f"Some paths were not found: {missing}")
 
 
-def make_dirs(directories: list[str]) -> None:
+def make_dirs(dir_or_dirs: str | list[str]) -> None:
     """
-    Creates the specified directories if they do not already exist.
+    Creates the specified dir_or_dirs if they do not already exist.
 
     Args:
-        directories (list[str]): List of directory paths to create.
+        dir_or_dirs (str | list[str]): Directory or list of directory paths to create.
     """
-    for directory in directories:
+    if isinstance(dir_or_dirs, str):
+        dir_or_dirs = [dir_or_dirs]
+
+    for directory in dir_or_dirs:
         os.makedirs(directory, exist_ok=True)
 
 
