@@ -213,7 +213,7 @@ def change_file_ext(path: str, new_extension: str) -> str:
     return str(Path(path).with_suffix(new_extension))
 
 
-def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable, _verbose: bool = None, *args, **kwargs) -> Any:
+def manage_temp_files(call_key: str, temp_folder_path: str, function: Callable, _verbose: bool = None, *args, **kwargs) -> Any:
     """Manages temporal files for saving certain function outputs.
 
     When called for the first time, it will execute the function and save the file
@@ -232,7 +232,7 @@ def magange_temp_files(call_key: str, temp_folder_path: str, function: Callable,
 
     Examples:
     >>> for i in range(10):
-    >>>     magange_temp_files(
+    >>>     manage_temp_files(
     >>>         i,                     # call_key
     >>>         "./temp",              # temp_folder_path
     >>>         document_to_llm,       # function
