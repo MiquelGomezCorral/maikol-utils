@@ -97,26 +97,30 @@ def print_color(text: str, color: Colors = "white", log_level: LogLevel = 'info'
 
 
 def print_warn(text: str, color: Colors = "yellow", prefix: str = '', suffix: str = '') -> str:
-    """Adds the text between teh following emoji ⚠️...⚠️
+    """Format and print a warning message surrounded by ⚠️ emojis.
 
     Args:
-        text (str): Text to print in warn
-        color (Colors, optional): Color of the warning text. Defaults to "yellow".
+        text (str): The message to display as a warning.
+        color (Colors, optional): The color of the warning text. Defaults to "yellow".
+        prefix (str, optional): Text to prepend before the warning. Defaults to ''.
+        suffix (str, optional): Text to append after the warning. Defaults to ''.
 
     Returns:
-        str: Text with color and emojis
+        str: The formatted warning text with color and emojis.
     """
     return print_color(f"{prefix}⚠️{text}⚠️{suffix}", color=color, log_level="warning")
 
 def print_error(text: str, color: Colors = "red", prefix: str = '', suffix: str = '') -> str:
-    """Adds the text between teh following emoji ❌...❌
+    """Format and print an error message surrounded by ❌ emojis.
 
     Args:
-        text (str): Text to print in warn
-        color (Colors, optional): Color of the error text. Defaults to "red".
+        text (str): The message to display as an error.
+        color (Colors, optional): The color of the error text. Defaults to "red".
+        prefix (str, optional): Text to prepend before the error. Defaults to ''.
+        suffix (str, optional): Text to append after the error. Defaults to ''.
 
     Returns:
-        str: Text with color and emojis
+        str: The formatted error text with color and emojis.
     """
     return print_color(f"{prefix}❌{text}❌{suffix}", color=color, log_level="error")
 
