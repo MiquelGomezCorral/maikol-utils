@@ -96,7 +96,7 @@ def print_color(text: str, color: Colors = "white", log_level: LogLevel = 'info'
     return text
 
 
-def print_warn(text: str, color: Colors = "yellow") -> str:
+def print_warn(text: str, color: Colors = "yellow", prefix: str = '', suffix: str = '') -> str:
     """Adds the text between teh following emoji ⚠️...⚠️
 
     Args:
@@ -106,9 +106,9 @@ def print_warn(text: str, color: Colors = "yellow") -> str:
     Returns:
         str: Text with color and emojis
     """
-    return print_color(f"⚠️{text}⚠️", color=color, log_level="warning")
+    return print_color(f"{prefix}⚠️{text}⚠️{suffix}", color=color, log_level="warning")
 
-def print_error(text: str, color: Colors = "red") -> str:
+def print_error(text: str, color: Colors = "red", prefix: str = '', suffix: str = '') -> str:
     """Adds the text between teh following emoji ❌...❌
 
     Args:
@@ -118,7 +118,7 @@ def print_error(text: str, color: Colors = "red") -> str:
     Returns:
         str: Text with color and emojis
     """
-    return print_color(f"❌{text}❌", color=color, log_level="warning")
+    return print_color(f"{prefix}❌{text}❌{suffix}", color=color, log_level="error")
 
 
 # ==========================================================================================
