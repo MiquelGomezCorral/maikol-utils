@@ -213,7 +213,7 @@ def change_file_ext(path: str, new_extension: str) -> str:
     return str(Path(path).with_suffix(new_extension))
 
 
-def manage_temp_files(call_key: str, temp_folder_path: str, function: Callable, _verbose: bool = None, *args, **kwargs) -> Any:
+def manage_temp_files(call_key: str, temp_folder_path: str, function: Callable, _verbose: bool = None, keep_logs: bool = True, *args, **kwargs) -> Any:
     """Manages temporal files for saving certain function outputs.
 
     When called for the first time, it will execute the function and save the file
@@ -249,7 +249,10 @@ def manage_temp_files(call_key: str, temp_folder_path: str, function: Callable, 
         return load_json(temp_path, verbose=False)
 
     if get_verbose(_verbose):
-        print_status(f" - Executing '{function.__name__}' for '{call_key}'...")
+        if keep_logs:
+            print_log(f" - Executing '{function.__name__}' for '{call_key}'...")
+        else:
+            print_status(f" - Executing '{function.__name__}' for '{call_key}'...")
     result = function(*args, **kwargs)
 
     save_json(temp_path, result, verbose=False)
