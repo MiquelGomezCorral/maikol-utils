@@ -1,8 +1,11 @@
-# Welcoome to maikol-utils 🧰 V 0.6.6
+# Welcoome to maikol-utils 🧰 V 0.6.7
+
 maikol-utils is a lightweight and reusable Python utility package designed to speed up and clean up your everyday scripting and automation workflows.
 
 Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators — this module brings a collection of practical tools ready to use.
+
 # 🧑‍💻 Author
+
 Developed by [Miquel Gómez](https://miquelgc.net) – Python developer.
 Hand-picked utilities from real-world scripting and automation tasks.
 
@@ -22,6 +25,7 @@ Hand-picked utilities from real-world scripting and automation tasks.
 ```
 
 # 🚀 Features
+
 - 🔹 Filesystem helpers: Easily check, load, save, and create files/directories.
 - 🖨️ Colorful terminal prints: Add colored, formatted, or warning messages to your logs.
 - 📜 Visual bash separators: Make your CLI outputs more structured and readable.
@@ -30,14 +34,16 @@ Hand-picked utilities from real-world scripting and automation tasks.
 # 📦 Installation
 
 Option 1: _With pip_
+
 1. With pip: `pip install maikol-utils`
 
 Option 2: _Clonning the repo_
+
 1. Clone it from [github](https://github.com/MiquelGomezCorral/maikol-utils): `git clone https://github.com/MiquelGomezCorral/maikol-utils`
 
 ### Examples of each function at the repo notebook
-- This [notebook](https://github.com/MiquelGomezCorral/maikol-utils/blob/main/usage_examples.ipynb)
 
+- This [notebook](https://github.com/MiquelGomezCorral/maikol-utils/blob/main/usage_examples.ipynb)
 
 # 📘 Usage
 
@@ -60,8 +66,11 @@ print_warn("This file is missing some fields!")
 # Clean last 2 terminal lines
 clear_bash(2)
 ```
+
 # 📚 Functions Overview
+
 ### 🗃 File system
+
 ```python
 save_json(path, content) — Save Python object to JSON.
 
@@ -72,8 +81,8 @@ check_dirs_existance(paths) — Assert if dirs exist.
 make_dirs(paths) — Create dirs if not present.
 ```
 
-
 ### 🎨 Terminal Printing
+
 ```python
 print_separator(text, sep_type) — Print formatted section headers.
 
@@ -88,21 +97,23 @@ clear_bash(n) — Clear n lines above in terminal.
 print_clear_bash(text, n) — Clear then print a new message.
 ```
 
-
 # 🔧 Roadmap
 
 - Add async support for I/O.
 - Option to customize color themes.
 - CLI preview tool for bash formatting.
 
-
 ### Upload
+
 - If first time
+
 ```bash
-pip install twine wheel
+pip install twine wheel build
+pip install .
 ```
+
 - Upload
-```bash
+
 ```bash
 source ../base_env/bin/activate
 rm -fr dist

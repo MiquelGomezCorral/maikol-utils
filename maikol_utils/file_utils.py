@@ -82,19 +82,25 @@ def check_dirs_existance(dir_or_dirs: str | list[str]) -> None:
         raise KeyError(f"Some paths were not found: {missing}")
 
 
-def make_dirs(dir_or_dirs: str | list[str]) -> None:
+def make_dirs(dir_or_dirs: str | list[str]) -> list[bool]:
     """
     Creates the specified dir_or_dirs if they do not already exist.
 
     Args:
         dir_or_dirs (str | list[str]): Directory or list of directory paths to create.
+    
+    Returns:
+        list[bool]: for each directory 'created', whether or not it existed before.
     """
     if isinstance(dir_or_dirs, str):
         dir_or_dirs = [dir_or_dirs]
 
+    existed = []
     for directory in dir_or_dirs:
+        existed.append(os.path.exists(directory))
         os.makedirs(directory, exist_ok=True)
 
+    return existed
 
 def clear_directories(dir_or_dirs: str | list[str], remove_folder: bool = False, verbose: bool = None):
     """Clears out each directory in `dir_or_dirs`. 
