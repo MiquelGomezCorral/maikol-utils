@@ -2,69 +2,10 @@
 
 import time
 import json
-from typing import Tuple, Optional, TextIO
+from typing import Tuple, TextIO
 
-from .print_utils import print_separator, print_warn
-
-# =================================================
-#                   HELPER FUNCTIONS
-# =================================================
-    
-def parse_seconds_to_minutes(sec: float) -> str:
-    """
-    Parses a duration in seconds into a formatted string with hours, minutes, and seconds.
-
-    Args:
-        sec (float): Number of seconds.
-
-    Returns:
-        str: Formatted time string (e.g., '01 hrs, 05 mins, 30.1234 sec').
-    """
-    hours = int(sec // 3600)
-    minutes = int((sec % 3600) // 60)
-    seconds = int(sec % 60)
-    decimals = int((sec % 1) * 10000)
-
-    if hours > 0:
-        return f"{hours:02} hrs, {minutes:02} mins, {seconds:02}.{decimals:04} sec"
-    elif minutes > 0:
-        return f"{minutes:02} mins, {seconds:02}.{decimals:04} sec"
-    else:
-        return f"{seconds:02}.{decimals:04} sec"
-
-
-def print_time(sec: float, n_files: Optional[int] = None, space: bool = False, prefix: str = "", sufix: str = "", out_file: Optional[TextIO] = None) -> None:
-    """Given a certain number of seconds, parse it to Formatted time string (e.g., '01 hrs, 05 mins, 30.1234 sec').
-    If not enough seconds for hours, just '05 mins, 30.1234 sec'.
-    If neither enogh seconds for minuts, just parse '30.1234 sec'.
-    Optionally you can add a 'number of files' to get avg metrics as well as extra config for better printing. 
-    Optionally you can pass a file to print everyting there.
-
-    Args:
-        sec (float): Number of seconds
-        n_files (Optional[int], optional): Number of files to add an avg. Defaults to None.
-        space (bool, optional): To add a space before the print. Defaults to False.
-        prefix (str, optional): To add a prefix before the print. Defaults to "".
-        sufix (str, optional): To add a sufix after the print. Defaults to "".
-        out_file (Optional[TextIO], optional): To print the line somewere that's not the std bash (keed None for bash). Defaults to None.
-    """
-    if space:
-        print("")
-    
-    if not prefix.endswith(" "):
-        prefix = f"{prefix} "
-    
-    if n_files is not None:
-        message = f"{prefix} - {n_files:4} files in: {parse_seconds_to_minutes(sec)}{sufix}.\n"
-        message += f" -  Per document: {parse_seconds_to_minutes(sec / n_files)}"
-    else:
-        message = f"{prefix}Time: {parse_seconds_to_minutes(sec)}{sufix}."
-
-    if out_file:
-        print(message, file=out_file)
-    else:
-        print(message)
-    
+from .print_utils import print_separator, print_warn, print_time
+from .other_utils import parse_seconds_to_minutes
 # =================================================
 #                   TIME TRACKER
 # =================================================
