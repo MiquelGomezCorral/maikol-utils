@@ -349,18 +349,17 @@ def print_time(sec: float, n_files: Optional[int] = None, space: bool = False, p
         out_file (Optional[TextIO], optional): To print the line somewere that's not the std bash (keed None for bash). Defaults to None.
     """
     if space:
-        print("")
-    
-    if not prefix.endswith(" "):
-        prefix = f"{prefix} "
+        print_log("")
     
     if n_files is not None:
-        message = f"{prefix} - {n_files:4} files in: {parse_seconds_to_minutes(sec)}{sufix}.\n"
-        message += f" - Per document: {parse_seconds_to_minutes(sec / n_files)}"
+        message = f"{n_files:4} files in: {parse_seconds_to_minutes(sec)}."
+        message += f" Per document: {parse_seconds_to_minutes(sec / n_files)}"
     else:
-        message = f"{prefix}Time: {parse_seconds_to_minutes(sec)}{sufix}."
+        message = f"Time: {parse_seconds_to_minutes(sec)}"
 
+    message = f"{prefix}{message}{sufix}."
+    
     if out_file:
-        print(message, file=out_file)
+        print_log(message, file=out_file)
     else:
-        print(message)
+        print_log(message)
