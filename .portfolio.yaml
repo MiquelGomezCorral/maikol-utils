@@ -1,10 +1,10 @@
 title:
-  en: maikol-utils: Python Utility Toolkit
-  es: maikol-utils: Toolkit de Utilidades Python
+  en: "maikol-utils: Python Utility Toolkit"
+  es: "maikol-utils: Toolkit de Utilidades Python"
 finished: finished
 descriptionShort:
-  en: Lightweight reusable Python utility package for everyday scripting: JSON file handling, colored terminal prints, visual bash separators, and dynamic status messages. Available on PyPI (pip install maikol-utils). Built with a clean, documented API.
-  es: Paquete Python ligero y reutilizable de utilidades para scripting diario: manejo de archivos JSON, prints de terminal con colores, separadores visuales bash, y mensajes de estado dinámicos. Disponible en PyPI (pip install maikol-utils). API limpia y documentada.
+  en: "Lightweight reusable Python utility package for everyday scripting: JSON file handling, colored terminal prints, visual bash separators, and dynamic status messages. Available on PyPI (pip install maikol-utils). Built with a clean, documented API."
+  es: "Paquete Python ligero y reutilizable de utilidades para scripting diario: manejo de archivos JSON, prints de terminal con colores, separadores visuales bash, y mensajes de estado dinámicos. Disponible en PyPI (pip install maikol-utils). API limpia y documentada."
 descriptionLong:
   en: |
     maikol-utils is a lightweight, reusable Python utility package available on PyPI (pip install maikol-utils). Designed to speed up and clean up everyday scripting and automation workflows. Features include: filesystem helpers (check/save/load JSON, directory management), colorful terminal printing (colored messages, warnings, section separators), visual bash separators for structured CLI output, and dynamic status messages with in-place terminal line updates. Includes a comprehensive usage notebook (usage_examples.ipynb), proper pyproject.toml packaging, and a documented roadmap. Developed from real-world scripting needs across multiple projects.
