@@ -1,6 +1,6 @@
 title:
   en: "maikol-utils: Python Utility Toolkit"
-  es: "maikol-utils: Toolkit de Utilidades Python"
+  es: "maikol-utils: Toolkit de Python"
 finished: finished
 descriptionShort:
   en: "Lightweight reusable Python utility package for everyday scripting: JSON file handling, colored terminal prints, visual bash separators, and dynamic status messages. Available on PyPI (pip install maikol-utils). Built with a clean, documented API."
