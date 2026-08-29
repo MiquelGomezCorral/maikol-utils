@@ -41,8 +41,9 @@ _separators = {
     "long"  : "_"*int(_separators_max_length),
     "super" : "="*int(_separators_max_length),
     "start" : "="*int(_separators_max_length),
+    "end"   : "#"*int(_separators_max_length),
 }
-SepType = Literal["SHORT", "NORMAL", "LONG", "SUPER", "START"]
+SepType = Literal["SHORT", "NORMAL", "LONG", "SUPER", "START", "END"]
 
 _colors = {
     # Regular colors
@@ -199,7 +200,7 @@ def print_separator(text: str = None, sep_type: SepType = "NORMAL", color: Color
 
     Args:
         text (str): Text to print.
-        sep_type (Literal['SHORT', 'NORMAL', 'LONG', 'SUPER', 'START'], optional): Type of the separation line. Defaults to "NORMAL".
+        sep_type (Literal['SHORT', 'NORMAL', 'LONG', 'SUPER', 'START', 'END'], optional): Type of the separation line. Defaults to "NORMAL".
         out_file (Optional[TextIO], optional): Print the line somewere that's not the std bash (keed None for bash). Defaults to None.
     """
 
@@ -217,6 +218,11 @@ def print_separator(text: str = None, sep_type: SepType = "NORMAL", color: Color
         if text:
             print_color(f"{text:^{len(sep)}}\n", color=color if color else "blue", out_file=out_file)
         print_color(sep + "\n", color=color if color else "blue", out_file=out_file)
+    elif sep_type == "END":
+        print_color(sep + "\n", color=color if color else "cyan", out_file=out_file)
+        if text:
+            print_color(f"{text:^{len(sep)}}\n", color=color if color else "cyan", out_file=out_file)
+        print_color(sep + "\n", color=color if color else "cyan", out_file=out_file)
     else:
         print_color(sep, color=color, out_file=out_file)
         if text:

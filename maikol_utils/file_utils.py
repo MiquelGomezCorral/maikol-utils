@@ -148,7 +148,7 @@ def clear_directories(dir_or_dirs: str | list[str], remove_folder: bool = False,
 # ==========================================================================================
 #                                       LIST DIR
 # ==========================================================================================
-def list_dir_files(path: str, max_files: int = None, recursive: bool = False, nat_sorting: bool = True, absolute_path: bool = True) -> tuple[list[str], int]:
+def list_dir_files(path: str, max_files: int = None, recursive: bool = False, nat_sorting: bool = True, absolute_path: bool = True, return_n_files: bool = False) -> tuple[list[str], int]:
     """Given a path and (optionally) the number of max files, loads a sorted list of
     all the files that are found in that folder (with at most max_files if passed).
     Then returns tha list of files and the number of those that have been loaded.
@@ -166,6 +166,7 @@ def list_dir_files(path: str, max_files: int = None, recursive: bool = False, na
                 >>> path = "./test" -> ["./test/file1","./test/file2","./test/folder/file3"]
             absolute_path = False: 
                 >>> path = "./test" -> ["/file1","/file2","/folder/file3"]
+        return_n_files (bool, optional): Whether or not return the number of files that have been listed. Default to False.
 
 
     Returns:
@@ -206,7 +207,10 @@ def list_dir_files(path: str, max_files: int = None, recursive: bool = False, na
     dir_list = dir_list[:max_files]
     n_files = len(dir_list)
 
-    return dir_list, n_files
+    if return_n_files:
+        return dir_list, n_files
+
+    return dir_list
 
 
 def change_file_ext(path: str, new_extension: str) -> str:

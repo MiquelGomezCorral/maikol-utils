@@ -1,7 +1,7 @@
-# Welcoome to maikol-utils 🧰 V 0.8.0
+# Welcoome to maikol-utils 🧰 V 0.8.2
 maikol-utils is a lightweight and reusable Python utility package designed to speed up and clean up your everyday scripting and automation workflows.
 
-Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators — this module brings a collection of practical tools ready to use.
+Whether you're handling JSON files, managing the file system, cleaning up terminal outputs, or improving logging with colored messages and structured separators - this module brings a collection of practical tools ready to use.
 
 # 🧑‍💻 Author
 
@@ -66,37 +66,56 @@ print_warn("This file is missing some fields!")
 clear_bash(2)
 ```
 
-# 📚 Functions Overview
+# Functions Overview
 
-### 🗃 File system
-
-```python
-save_json(path, content) — Save Python object to JSON.
-
-load_json(path) — Load JSON or return empty dict if not found.
-
-check_dirs_existance(paths) — Assert if dirs exist.
-
-make_dirs(paths) — Create dirs if not present.
-```
-
-### 🎨 Terminal Printing
+### File system
 
 ```python
-print_separator(text, sep_type) — Print formatted section headers.
+save_json(path, content) # Save Python object to JSON.
 
-print_color(text, color) — Print in red, green, blue, etc.
+load_json(path) # Load JSON or return empty dict if not found.
 
-print_warn(text) — Print warnings wrapped in ⚠️ emojis.
+check_dirs_existance(paths) # Assert if dirs exist.
 
-print_status(msg) — Overwrite previous line with dynamic status.
+make_dirs(paths) # Create dirs if not present.
 
-clear_bash(n) — Clear n lines above in terminal.
+list_dir_files(path) # List all the files on a directory
 
-print_clear_bash(text, n) — Clear then print a new message.
+change_file_ext(path, new_extensions) # Yes
 ```
 
-# 🔧 Roadmap
+### Terminal Printing
+
+```python
+print_separator(text, sep_type) # Print formatted section headers. 
+# List of valid sep_type: ["SHORT", "NORMAL", "LONG", "SUPER", "START", "END"]
+
+print_color(text, color) # Print in red, green, blue, etc.
+
+print_warn(text) # Print warnings wrapped in ⚠️ emojis.
+
+print_error(text) # Print errors wrapped in ❌ emojis.
+
+print_status(msg) # Overwrite previous line with dynamic status.
+
+clear_bash(n) # Clear n lines above in terminal.
+
+print_clear_bash(text, n) # Clear then print a new message.
+
+print_time(sec) # Print the time in seconds to pretty
+```
+
+### Other utils
+```python
+parse_seconds_to_minutes(sed) # Paste the time in seconds to pretty, just get the string not print
+
+args_to_dataclass(agrs, data_class) 
+# It will change all the fields that have ben added to the args.
+# If a field is not added in the args will be ignored.
+# Fields in the args that are not in the Config this will be ignored.
+```
+
+# Roadmap
 
 - Add async support for I/O.
 - Option to customize color themes.
@@ -114,7 +133,6 @@ pip install .
 - Upload
 
 ```bash
-source ../base_env/bin/activate
 rm -fr dist
 python -m build
 twine upload dist/*
